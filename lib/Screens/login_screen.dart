@@ -18,12 +18,21 @@ class loginScreen extends StatefulWidget {
 class _loginScreenState extends State<loginScreen> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+  bool isLoggingProcess = false;
+
+  @override
+  void initState() {
+    super.initState();
+  }
 
   void signIn() {
     final authService = Provider.of<AuthService>(context, listen: false);
 
     try {
-      authService.signInWithEP(emailController.text, passwordController.text);
+      isLoggingProcess = true;
+      authService
+          .signInWithEP(emailController.text, passwordController.text)
+          .then((value) => isLoggingProcess = false);
     } catch (e) {
       ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: Text(e.toString())));
@@ -77,7 +86,16 @@ class _loginScreenState extends State<loginScreen> {
                   SizedBox(
                     height: 35,
                   ),
-                  customButton(onTap: signIn, buttonText: 'Sign in'),
+                  (isLoggingProcess == false)
+                      ? customButton(
+                          onTap: () {
+                            setState(() {
+                              isLoggingProcess = true;
+                              signIn();
+                            });
+                          },
+                          buttonText: 'Sign in')
+                      : CircularProgressIndicator(),
 
                   SizedBox(
                     height: 30,

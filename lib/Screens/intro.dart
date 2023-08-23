@@ -25,6 +25,7 @@ class _introPageState extends State<introPage> with TickerProviderStateMixin {
       );
     });
 
+//Goto AuthController
     Future.delayed(Duration(milliseconds: 3300)).then((value) =>
         Navigator.pushReplacement(
             context, MaterialPageRoute(builder: (_) => AuthGate())));

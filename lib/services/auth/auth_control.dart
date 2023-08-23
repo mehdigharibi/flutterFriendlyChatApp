@@ -14,6 +14,10 @@ class AuthGate extends StatelessWidget {
         stream: FirebaseAuth.instance.authStateChanges(),
         builder: (context, snapshot) {
           //if user Loged in --->>
+          if (snapshot.hasError) {
+            ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: Text(snapshot.error.toString())));
+          }
           if (snapshot.hasData) {
             return homePage();
           } else {

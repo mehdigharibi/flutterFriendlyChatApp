@@ -13,7 +13,8 @@ class AuthService extends ChangeNotifier {
   Future<UserCredential> signInWithEP(String email, String password) async {
     try {
       UserCredential userCredential = await _firebaseAuth
-          .signInWithEmailAndPassword(email: email, password: password);
+          .signInWithEmailAndPassword(email: email, password: password)
+          .timeout(Duration(seconds: 60));
 
 //Add New Document for user in Users Collection if Doesn't Already Exist
       _firestore.collection('users').doc(userCredential.user!.uid).set(

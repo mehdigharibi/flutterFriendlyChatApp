@@ -59,12 +59,8 @@ class _chatPageState extends State<chatPage> {
 
   void sendMessage() async {
     if (_messageController.text.isNotEmpty) {
-      await _chatService
-          .sendMessage(widget.reciverUid, _messageController.text.toString())
-          .then((value) {
-        _messageController.clear();
-        _scrollDown();
-      });
+      await _chatService.sendMessage(
+          widget.reciverUid, _messageController.text.toString());
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Message Can not be Empty!')));
@@ -191,6 +187,8 @@ class _chatPageState extends State<chatPage> {
           IconButton(
               onPressed: () async {
                 sendMessage();
+                _messageController.clear();
+                _scrollDown();
               },
               icon: Icon(
                 Icons.send,
